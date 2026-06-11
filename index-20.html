@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Современная разработка сайтов: лендинги, сайты-визитки, корпоративные и многостраничные сайты под ключ." />
+  <meta name="keywords" content="разработка сайтов, веб-разработчик, лендинг, сайт-визитка, корпоративный сайт, многостраничный сайт" />
+  <meta name="author" content="Web Developer" />
+  <title>Web Developer — Создание современных сайтов</title>
+
+  <style>
+    /* =========================
+       БАЗОВЫЕ НАСТРОЙКИ
+    ========================== */
+    :root {
+      --bg-main: #05050a;
+      --bg-secondary: #0b0b14;
+      --text-main: #ffffff;
+      --text-muted: #a7a7ba;
+      --purple: #8b5cf6;
+      --purple-light: #a78bfa;
+      --purple-dark: #4c1d95;
+      --glass: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.14);
+      --shadow-purple: 0 0 45px rgba(139, 92, 246, 0.45);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --container: 1180px;
+      --transition: 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(139, 92, 246, 0.27), transparent 30%),
+        radial-gradient(circle at 82% 22%, rgba(76, 29, 149, 0.35), transparent 32%),
+        radial-gradient(circle at 50% 100%, rgba(139, 92, 246, 0.14), transparent 35%),
+        var(--bg-main);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 85%);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.18'/%3E%3C/svg%3E");
+      opacity: 0.18;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .container {
+      width: min(100% - 40px, var(--container));
+      margin: 0 auto;
+    }
+
+    /* =========================
+       ШАПКА САЙТА
+    ========================== */
+    .header {
+      position: fixed;
+      top: 18px;
+      left: 0;
+      width: 100%;
+      z-index: 50;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      background: rgba(10, 10, 20, 0.68);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--purple), var(--purple-dark));
+      box-shadow: var(--shadow-purple);
+    }
+
+    .logo span:last-child {
+      font-size: 18px;
+    }
+
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .menu a {
+      transition: var(--transition);
+    }
+
+    .menu a:hover {
+      color: var(--text-main);
+      text-shadow: 0 0 18px rgba(167, 139, 250, 0.7);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, var(--purple), #6d28d9);
+      box-shadow: var(--shadow-purple);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 70px rgba(139, 92, 246, 0.7);
+    }
+
+    .btn-secondary {
+      color: #fff;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(167, 139, 250, 0.55);
+      background: rgba(139, 92, 246, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .burger {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--glass-border);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.07);
+      cursor: pointer;
+    }
+
+    .burger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      margin: 4px auto;
+      border-radius: 2px;
+      background: #fff;
+      transition: var(--transition);
+    }
+
+    /* =========================
+       HERO / ZERO BLOCK
+    ========================== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 130px 0 70px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .hero-content {
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 22px;
+      padding: 9px 14px;
+      border: 1px solid rgba(167, 139, 250, 0.32);
+      border-radius: 999px;
+      color: #ddd6fe;
+      background: rgba(139, 92, 246, 0.09);
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.09);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--purple-light);
+      box-shadow: 0 0 18px var(--purple-light);
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(42px, 6vw, 78px);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+      margin-bottom: 26px;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(135deg, #fff, #ddd6fe 38%, var(--purple-light));
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-text {
+      max-width: 640px;
+      color: var(--text-muted);
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.7;
+      margin-bottom: 34px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+
+    .features {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feature-pill {
+      padding: 10px 14px;
+      border: 1px solid var(--glass-border);
+      border-radius: 999px;
+      color: #e9d5ff;
+      background: rgba(255, 255, 255, 0.055);
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    /* =========================
+       ВИЗУАЛЬНЫЙ ЭЛЕМЕНТ СПРАВА
+    ========================== */
+    .hero-visual {
+      position: relative;
+      min-height: 560px;
+      display: grid;
+      place-items: center;
+      animation: fadeUp 1s ease 0.15s both;
+    }
+
+    .orb {
+      position: absolute;
+      width: 390px;
+      height: 390px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.68), rgba(76, 29, 149, 0.05) 62%, transparent 70%);
+      filter: blur(8px);
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    .visual-card {
+      position: relative;
+      width: min(100%, 455px);
+      padding: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.045));
+      backdrop-filter: blur(24px);
+      box-shadow:
+        0 35px 110px rgba(0, 0, 0, 0.45),
+        0 0 85px rgba(139, 92, 246, 0.33);
+      transform: perspective(1000px) rotateY(-9deg) rotateX(5deg);
+      overflow: hidden;
+    }
+
+    .visual-card::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: linear-gradient(120deg, transparent, rgba(167, 139, 250, 0.28), transparent);
+      transform: translateX(-100%);
+      animation: shine 5s ease-in-out infinite;
+    }
+
+    .browser-top {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      z-index: 1;
+    }
+
+    .circle {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .circle:nth-child(1) { background: #fb7185; }
+    .circle:nth-child(2) { background: #facc15; }
+    .circle:nth-child(3) { background: #34d399; }
+
+    .url-bar {
+      flex: 1;
+      height: 28px;
+      margin-left: 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mock-site {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 16px;
+    }
+
+    .mock-hero {
+      padding: 24px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at top right, rgba(167,139,250,0.28), transparent 35%),
+        rgba(0, 0, 0, 0.24);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .mock-line {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      margin-bottom: 10px;
+    }
+
+    .mock-line.big {
+      width: 86%;
+      height: 22px;
+      background: linear-gradient(90deg, #fff, var(--purple-light));
+    }
+
+    .mock-line.medium { width: 68%; }
+    .mock-line.small { width: 46%; }
+
+    .code-box {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(4, 4, 10, 0.75);
+      border: 1px solid rgba(167, 139, 250, 0.18);
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 13px;
+      color: #ddd6fe;
+      line-height: 1.7;
+    }
+
+    .code-box span {
+      color: var(--purple-light);
+    }
+
+    .floating-card {
+      position: absolute;
+      right: -18px;
+      bottom: 70px;
+      z-index: 5;
+      width: 190px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 20px;
+      background: rgba(20, 20, 35, 0.74);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 70px rgba(0,0,0,0.38), 0 0 45px rgba(139, 92, 246, 0.24);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .floating-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 24px;
+    }
+
+    .floating-card p {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .tech-card {
+      position: absolute;
+      left: -10px;
+      top: 92px;
+      z-index: 5;
+      padding: 12px 15px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 999px;
+      background: rgba(15, 15, 28, 0.72);
+      backdrop-filter: blur(16px);
+      color: #ede9fe;
+      font-weight: 700;
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.22);
+      animation: float 4.5s ease-in-out infinite reverse;
+    }
+
+    /* =========================
+       АНИМАЦИИ
+    ========================== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(0.95); opacity: 0.75; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes shine {
+      0%, 40% { transform: translateX(-110%); }
+      70%, 100% { transform: translateX(110%); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    /* =========================
+       АДАПТИВ
+    ========================== */
+    @media (max-width: 980px) {
+      .menu,
+      .nav-actions .btn-primary {
+        display: none;
+      }
+
+      .burger {
+        display: block;
+      }
+
+      .nav.open {
+        border-radius: 28px;
+      }
+
+      .nav.open .menu {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 20px;
+        right: 20px;
+        display: grid;
+        gap: 8px;
+        padding: 18px;
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        background: rgba(10, 10, 20, 0.93);
+        backdrop-filter: blur(20px);
+      }
+
+      .nav.open .menu a {
+        display: block;
+        padding: 12px;
+        border-radius: 14px;
+      }
+
+      .nav.open .menu a:hover {
+        background: rgba(139, 92, 246, 0.1);
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+      }
+
+      .hero-text,
+      h1 {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-buttons,
+      .features {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        min-height: 470px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: min(100% - 24px, var(--container));
+      }
+
+      .header {
+        top: 10px;
+      }
+
+      .nav {
+        padding: 12px;
+      }
+
+      .logo span:last-child {
+        font-size: 16px;
+      }
+
+      .hero {
+        padding-top: 112px;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      .hero-buttons .btn {
+        width: 100%;
+      }
+
+      .hero-visual {
+        min-height: 390px;
+      }
+
+      .visual-card {
+        transform: none;
+        padding: 16px;
+      }
+
+      .floating-card,
+      .tech-card {
+        display: none;
+      }
+
+      .orb {
+        width: 290px;
+        height: 290px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================
+       HEADER
+  ========================== -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav" id="nav">
+        <a href="index.html" class="logo" aria-label="На главную">
+          <span class="logo-mark">✦</span>
+          <span>DevStudio</span>
+        </a>
+
+        <ul class="menu" id="menu">
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#portfolio">Портфолио</a></li>
+          <li><a href="#about">Обо мне</a></li>
+          <li><a href="#contacts">Контакты</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <a href="#contacts" class="btn btn-primary">Обсудить проект</a>
+          <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- =========================
+       HERO / ZERO BLOCK
+  ========================== -->
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            Разработка современных сайтов
+          </div>
+
+          <h1>
+            Создаю сайты, которые <span class="gradient-text">выглядят дорого</span> и помогают привлекать клиентов
+          </h1>
+
+          <p class="hero-text">
+            Лендинги, сайты-визитки и многостраничные сайты с современным дизайном,
+            адаптивной версткой и базовой SEO-оптимизацией.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#contacts" class="btn btn-primary">Обсудить проект</a>
+            <a href="#portfolio" class="btn btn-secondary">Посмотреть работы</a>
+          </div>
+
+          <div class="features" aria-label="Преимущества">
+            <span class="feature-pill">Быстро</span>
+            <span class="feature-pill">Адаптивно</span>
+            <span class="feature-pill">Современно</span>
+            <span class="feature-pill">Под ключ</span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="orb"></div>
+
+          <div class="tech-card">AI Dark UI</div>
+
+          <div class="visual-card">
+            <div class="browser-top">
+              <span class="circle"></span>
+              <span class="circle"></span>
+              <span class="circle"></span>
+              <div class="url-bar"></div>
+            </div>
+
+            <div class="mock-site">
+              <div class="mock-hero">
+                <div class="mock-line big"></div>
+                <div class="mock-line medium"></div>
+                <div class="mock-line small"></div>
+              </div>
+
+              <div class="code-box">
+                <div><span>const</span> website = &#123;</div>
+                <div>&nbsp;&nbsp;design: <span>'premium'</span>,</div>
+                <div>&nbsp;&nbsp;speed: <span>'fast'</span>,</div>
+                <div>&nbsp;&nbsp;seo: <span>true</span></div>
+                <div>&#125;</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-card">
+            <strong>100%</strong>
+            <p>адаптивная верстка под телефон, планшет и компьютер</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Мобильное меню
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    const menuLinks = document.querySelectorAll('.menu a');
+
+    burger.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      burger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Закрытие меню после клика по пункту
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>
