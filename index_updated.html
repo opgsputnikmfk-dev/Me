@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevStudio</title>
+<style>
+body{margin:0;background:#090611;color:#fff;font-family:Arial,sans-serif}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px}
+.wrap{max-width:1200px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.card{background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:24px;box-shadow:0 0 40px rgba(140,82,255,.35)}
+.project{margin-bottom:20px;padding:16px;border-radius:16px;background:rgba(255,255,255,.04)}
+.preview{height:120px;border-radius:12px;background:linear-gradient(135deg,#1b102d,#8c52ff)}
+a{color:#c8b4ff}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section class="hero">
+<div class="wrap">
+<div>
+<h1>Создаю сайты, которые выглядят дорого и помогают привлекать клиентов</h1>
+<p>Лендинги, сайты-визитки и многостраничные сайты.</p>
+</div>
+<div class="card">
+<h2>Мои работы</h2>
+
+<div class="project">
+<div class="preview"></div>
+<h3>Auto Papiery PL</h3>
+<p>Оформление автодокументов в Польше.</p>
+<p>Статус: Готовый проект</p>
+<a href="https://autopapiery.pl">Открыть сайт</a>
+</div>
+
+<div class="project">
+<div class="preview"></div>
+<h3>AMI</h3>
+<p>Современный корпоративный сайт.</p>
+<p>Статус: Готовый проект</p>
+<a href="https://nastya-sable.vercel.app/">Открыть сайт</a>
+</div>
+
+</div>
+</div>
+</section>
+</body>
+</html>
